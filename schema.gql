@@ -1,0 +1,20 @@
+type User {
+    id: ID!
+    nickname: String! @search(by: [hash])
+    initiatedConversations: [Conversation!]! @hasInverse(field: initiator)
+    receivedConversations: [Conversation!]! @hasInverse(field: recipient)
+}
+
+type Conversation @withSubscription {
+    id: ID!
+    messages: [Message!]! @hasInverse(field: conversation)
+    initiator: User!
+    recipient: User!
+}
+
+type Message {
+    id: ID!
+    conversation: Conversation!
+    sender: User!
+    text: String!
+}
